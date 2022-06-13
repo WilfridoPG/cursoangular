@@ -1,0 +1,9 @@
+<p>Impresora</p>
+<button type="button" (click)="toPrint()" class="btn btn-primary">imprimir </button>
+
+<div class="mt-5">
+    <app-print (name)="recibeName($event)" [text]="textToPrint" [person]="abel"></app-print>
+</div>
+
+
+

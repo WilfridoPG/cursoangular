@@ -1,0 +1,46 @@
+
+<form [formGroup]="loginForm">
+    <mat-card> 
+    <div>
+        <mat-form-field class="example-form-field" appearance="outline">
+            <mat-label>E-mail</mat-label>
+            <input matInput  formControlName="email" placeholder="email" type="email" >
+            <mat-error *ngIf="loginForm.controls['email'].hasError('email') || false " >
+                No es un correo válido
+            </mat-error>
+            <mat-error *ngIf="loginForm.controls['email'].hasError('required') || false " >
+                Email es requerido
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput  type="password" formControlName="password" placeholder="contraseña">
+            <mat-error *ngIf="loginForm.controls['password'].errors" >
+                La contraseña no es valida
+            </mat-error>
+          </mat-form-field>
+    </div>
+    <div>
+    <button class="btn btn-primary mt-5 d-flex flex-row aling-items-center" 
+    style="gap:1rem" [disabled]="!loginForm.valid || loading==true" 
+    (click)="onSubmit()">  <mat-spinner [diameter]="20" *ngIf="loading" class="spiner"></mat-spinner> Submit </button>
+   
+    </div>
+</mat-card>
+</form>
+
+
+<div style="margin-top:4rem">
+    <mat-card class="mt-4 bg-secondary" *ngFor="let person of personas">
+        <mat-card-header>Nombre:{{person.name}}</mat-card-header>
+        <mat-card-content>
+            <ul> <li>edad:{{person.age}}</li> </ul>
+        </mat-card-content>
+    </mat-card>
+    
+
+</div>
+
+
