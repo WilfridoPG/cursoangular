@@ -11,6 +11,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {HttpClientModule} from '@angular/common/http';
+import { DetailComponent } from './components/detail/detail.component';
+import {MatListModule} from '@angular/material/list';
+import { CharacterListComponent } from './components/character-list/character-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ResultComponent,
     PrintComponent,
     LoginContainerComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    DetailComponent,
+    CharacterListComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +33,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     BrowserAnimationsModule,
     MatCardModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    HttpClientModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

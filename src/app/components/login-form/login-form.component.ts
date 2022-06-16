@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, Subscription,of } from 'rxjs';
+import { Characters } from 'src/app/interfaces/responses';
+import { CharactersService } from 'src/app/services/characters.service';
 
 type Persona={
   name:string,
@@ -18,9 +21,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   public loading:boolean = false
   public personas:Persona[]=[{name: "John",age: 34},{name: "Ana",age: 24}]
   valuesSubs:Subscription | undefined
+  public characters:Characters[]|undefined=[]
   myObservable = of(1, 2, 3);
+  public filterName=new FormControl('')
+  filterNombre:Subscription | undefined
 
-  constructor( public fb:FormBuilder ) { }
+  constructor( 
+    public fb:FormBuilder,
+    private charactersService:CharactersService,private router:Router ) { }
 
   loginForm=this.fb.group({
     email:['',[Validators.email,Validators.required]],
@@ -30,8 +38,17 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     email:new FormControl("",[Validators.required,Validators.email]),
     password:new FormControl('',[Validators.required,Validators.minLength(8)])
   });*/
+  public doToDetail(id:number){
+    this.router.navigate(['/detail/'+id])
+  }
 
   ngOnInit(): void {
+    this.filterNombre=  this.filterName.valueChanges.subscribe((value) => {
+      console.log(value)
+      this.call(value)
+    })
+    //llama al servicio 
+    this.call()
     // Create observer object
     const myObserver = {
       next: (x: number) => console.log('Observer got a next value: ' + x),
@@ -41,43 +58,49 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
     // Execute with the observer object
     this.myObservable.subscribe(myObserver);
-    /* this.obs=new Observable<string>(observer => {
-      setTimeout(() => {
-        observer.next("helllo")
-      }, 1000);
-      setTimeout(() => {
-        observer.next("helllo1")
-      }, 2000);
-      setTimeout(() => {
-        observer.next("helllo2")
-      }, 3000);
-      setTimeout(() => {
-        observer.complete()
-      }, 3000);
-    });
-    this.subscription=this.obs.subscribe( {
-      next(num) { console.log('Next num: ' + num)},
-    error(err) { console.log('Received an error: ' + err)},
-    complete() { console.log('2nd sequence finished.'); }
-      })*/
+
     this.valuesSubs=this.loginForm.valueChanges.subscribe((data)=>{
       console.log(this.loginForm.controls);
     })
+    
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.filterNombre?.unsubscribe();
+
   }
 
   public onSubmit(): void {
     console.log("-",this.loginForm);
+
     this.loginCall(this.loginForm)
+    localStorage.setItem('curso-angular',JSON.stringify(this.loginForm.value))
+    this.router.navigate(['/app']);
+  }
+
+ /* public call():void {
+    this.charactersService.getCharacters().then(charactersList => {
+      this.characters=charactersList?.results
+      console.log("datos desde login", this.characters)
+    }).catch((error) => {
+      this.characters=undefined
+    })
+
+  }*/
+
+  public async call(filter?: string):Promise<void> {
+    this.characters= (await this.charactersService.getCharacters(filter))?.results;
+    console.log("datos",this.characters)
+  
   }
 
  loginCall(formVlues:any):void {
    this.loading=true
    setTimeout(() => {
-     console.log("-",formVlues);
+  
+    localStorage.setItem("curso-angular",JSON.stringify(this.loginForm.value))
+    this.router.navigate(['/app'])
      this.loading=false
    }, 3000);
  }

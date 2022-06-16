@@ -1,0 +1,28 @@
+<p>Detalles</p>
+<div class="mt-5 container">    
+
+    <button  (click)="getPersonaje(-1)">Anterior </button>
+    <mat-card  class="grid-item" style=" background-color:rgb(223, 223, 223)" >
+        <span style="color:red;"> Nombre {{detailsData?.name}}</span>   
+     
+        <mat-card-content>
+            <img [src]="detailsData?.image" alt=""> 
+       </mat-card-content>
+       <mat-list> 
+        <mat-list-item>Nombre:{{detailsData?.name}}</mat-list-item>
+    </mat-list>
+    <mat-list> 
+        <mat-list-item>Especie:{{detailsData?.species}}</mat-list-item>
+    </mat-list>
+    <mat-list> 
+        <mat-list-item>Genero:{{detailsData?.gender}}</mat-list-item>
+    </mat-list>
+    <mat-list> 
+        <mat-list-item>Lugar de origen:{{detailsData?.location?.name}}</mat-list-item>
+    </mat-list>
+    <mat-list> 
+        <mat-list-item>Estatus:{{detailsData?.status}}</mat-list-item>
+    </mat-list>
+    </mat-card>
+    <button  (click)="getPersonaje(+1)" >Siguiente </button>
+</div>

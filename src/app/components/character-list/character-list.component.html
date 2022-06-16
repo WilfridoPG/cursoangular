@@ -1,0 +1,16 @@
+
+<mat-card>
+    <mat-form-field>
+        <input [formControl]="filterName" type="text" placeholder="Filtro nombre"/>
+    </mat-form-field>
+</mat-card>
+<div class="mt-5" *ngIf="characters" class="grid-container" >
+    <mat-card (click)="doToDetail(card.id)" class="grid-item" style="cursor:pointer; background-color:rgb(223, 223, 223)" *ngFor="let card of characters">
+        <span style="color:red;"> Nombre:{{card.name}} </span>   
+        <mat-card-header>
+        </mat-card-header>
+        <mat-card-content>
+            <img [src]="card.image" alt=""> 
+       </mat-card-content>
+    </mat-card>
+</div>
